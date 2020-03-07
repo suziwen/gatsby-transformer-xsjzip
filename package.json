@@ -1,7 +1,7 @@
 {
   "name": "gatsby-transformer-xsjzip",
   "description": "Gatsby transformer plugin for Markdown using the xsjzip library and ecosystem",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "author": "suziwen <suziwen1@gmail.com>",
   "bugs": {
     "url": "https://github.com/suziwen/gatsby-transformer-xsjzip/issues"
@@ -43,5 +43,8 @@
     "build": "babel src --out-dir . --ignore **/__tests__",
     "prepare": "cross-env NODE_ENV=production npm run build",
     "watch": "babel -w src --out-dir . --ignore **/__tests__"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
