@@ -67,12 +67,11 @@ exports.onInitialClientRender = () => {
           return hasElem(elm,queryEl);
       },this);
       if(s) {
-        fn();
+        fn(e, s);
       }
     });
   }
-  _attachEvent('click', '.story_block_image .gif_player', (e)=> {
-    const target = e.currentTarget
+  _attachEvent('click', '.story_block_image .gif_player', (e, target)=> {
     target.classList.remove('error')
     if (target.classList.contains('loading')){
       return
