@@ -55,7 +55,7 @@ exports.onInitialClientRender = () => {
     };
     const hasElem = function(elem, elems) {
       for (const _elem of elems) {
-        if (_elm === elm) {
+        if (_elem === elem) {
           return true
         }
       }
