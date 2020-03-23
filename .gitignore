@@ -3,3 +3,4 @@
 /extend-node-type.js
 /on-node-create.js
 /replace-images.js
+/create-schema-customization.js

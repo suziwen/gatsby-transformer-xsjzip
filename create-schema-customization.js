@@ -3,9 +3,7 @@
 module.exports = function createSchemaCustomization({
   actions
 }) {
-  const {
-    createTypes
-  } = actions;
+  const createTypes = actions.createTypes;
   const typeDefs = `
     type StoryWriterMarkdown implements Node{
       id: ID
