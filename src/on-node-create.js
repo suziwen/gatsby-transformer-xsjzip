@@ -208,6 +208,11 @@ module.exports = async function onCreateNode(
     if (!!markdownNode.tags && typeof(markdownNode.tags) === 'string'){
       markdownNode.tags = markdownNode.tags.split(",")
     }
+    if (!!markdonwNode.tags) {
+      markdonwNode.tags = markdonwNode.tags.map((tag)=>{
+        return tag.trim()
+      })
+    }
     markdownNode.customCss = meta.cssText
     markdownNode.css = style
     const slug = frontmatter.slug || meta.slug || createFilePath({node, getNode})
