@@ -208,8 +208,8 @@ module.exports = async function onCreateNode(
     if (!!markdownNode.tags && typeof(markdownNode.tags) === 'string'){
       markdownNode.tags = markdownNode.tags.split(",")
     }
-    if (!!markdonwNode.tags) {
-      markdonwNode.tags = markdonwNode.tags.map((tag)=>{
+    if (!!markdownNode.tags) {
+      markdownNode.tags = markdownNode.tags.map((tag)=>{
         return tag.trim()
       })
     }
