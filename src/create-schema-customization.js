@@ -13,6 +13,10 @@ module.exports = function createSchemaCustomization ({ actions }){
       tags: [String!]!
       excerpt: String!
       createDate: Date! @dateformat
+      createYear: Date! @dateformat
+      createYearMonth: Date! @dateformat
+      createYearMonthDay: Date! @dateformat
+      rawMarkdownBody: String!
       updateDate: Date! @dateformat
     }
   `
