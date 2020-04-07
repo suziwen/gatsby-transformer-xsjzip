@@ -44,7 +44,7 @@
     "build": "babel src --out-dir . --ignore **/__tests__",
     "prepare": "cross-env NODE_ENV=production npm run build",
     "watch": "babel -w src --out-dir . --ignore **/__tests__",
-    "p": "npm --registry https://registry.npmjs.org  publish"
+    "p": "git push --follow-tags origin master && npm run build && npm --registry https://registry.npmjs.org  publish"
   },
   "engines": {
     "node": ">=8.0.0"
