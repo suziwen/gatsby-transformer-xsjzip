@@ -18,6 +18,37 @@ const getParsedPath = function (url) {
 const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal})=>{
   const isBlockImg = $img.parent().parent().hasClass('story_block_image')
   const mediaType = imageNode.internal.mediaType
+  if (mediaType === 'image/svg+xml') {
+    // 如果是 svg 图片, 仅复制图片
+    const fileName = `${imageNode.name}-${imageNode.internal.contentDigest}${
+      imageNode.ext
+    }`
+
+    const publicPath = path.join(
+      process.cwd(),
+      `public`,
+      `static`,
+      fileName
+    )
+
+    if (!fs.existsSync(publicPath)) {
+      fs.copy(imageNode.absolutePath, publicPath, err => {
+        if (err) {
+          console.error(
+            `error copying file from ${
+              imageNode.absolutePath
+            } to ${publicPath}`,
+            err
+          )
+        }
+      })
+    }
+    
+    const originalImg = `/static/${fileName}`
+    $img.attr('class', 'front_image')
+    $img.attr('src', originalImg)
+    return
+  }
   let fluidResult = await fluid({
     file: imageNode,
     args: options,
