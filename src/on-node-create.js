@@ -5,6 +5,7 @@ const _ = require(`lodash`)
 const AdmZip = require('adm-zip')
 const path = require(`path`)
 const cheerio = require('cheerio')
+const {withPrefix} = require('gatsby')
 const { createFileNode } = require(`gatsby-source-filesystem/create-file-node`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 const truncatise = require(`truncatise`)
@@ -165,6 +166,14 @@ module.exports = async function onCreateNode(
   $('.story_tags').remove()
   $('#MathJax_SVG_glyphs').parent().css('display', 'none')
   $('#MathJax_SVG_glyphs').parent().parent().css('display', 'none')
+
+  $('a').each((index, aEl)=>{
+    const $a = $(aEl)
+    const href = $a.attr('href')
+    if (/^\/[^\/]/.test(href)) {
+      $a.attr('href', withPrefix('/') + href.substring(1))
+    }
+  })
   // 对 image 的特殊处理
   const remoteImageNodes = await transformImages({$, cache, store, createNode, createNodeId, parentNode:node, createParentChildLink, reporter, pluginOptions})
   await replaceImages({$, jsonNode, cache, pathPrefix, reporter, fileNodes, remoteImageNodes, pluginOptions})
