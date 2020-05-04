@@ -44,7 +44,7 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal})
       })
     }
     
-    const originalImg = `/static/${fileName}`
+    const originalImg = pathPrefix + `/static/${fileName}`
     $img.attr('class', 'front_image')
     $img.attr('src', originalImg)
     return
@@ -92,7 +92,7 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal})
       })
     }
     
-    const originalImg = `/static/${fileName}`
+    const originalImg = pathPrefix + `/static/${fileName}`
     $img.attr('class', 'front_image')
     $img.attr('src', fallbackSrc)
     $img.attr('data-src', originalImg)
