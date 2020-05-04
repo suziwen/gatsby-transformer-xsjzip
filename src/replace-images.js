@@ -15,7 +15,7 @@ const getParsedPath = function (url) {
 }
 
 
-const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal})=>{
+const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, pathPrefix})=>{
   const isBlockImg = $img.parent().parent().hasClass('story_block_image')
   const mediaType = imageNode.internal.mediaType
   if (mediaType === 'image/svg+xml') {
@@ -191,13 +191,13 @@ const replaceImages = async ({$, jsonNode, cache, pathPrefix, reporter, fileNode
           }
         })
         if (imageNode){
-          imgs.push({$img, imageNode, options:imageDefaults, reporter, cache, isLocal: true})
+          imgs.push({$img, imageNode, options:imageDefaults, reporter, cache, pathPrefix, isLocal: true})
         }
       } else {
       if (isWebUri(src)){
         const imageNode = remoteImageNodes[src]
         if (imageNode) {
-          imgs.push({$img, imageNode, options:imageDefaults, reporter, cache, isLocal: false})
+          imgs.push({$img, imageNode, options:imageDefaults, reporter, cache, pathPrefix, isLocal: false})
         }
       }
       }
