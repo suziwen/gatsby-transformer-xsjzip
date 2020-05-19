@@ -173,14 +173,18 @@ const transformImages = async({$, cache, store, createNode, createNodeId, parent
 }
 
 const replaceImages = async ({$, jsonNode, cache, pathPrefix, reporter, fileNodes, remoteImageNodes})=> {
-  const imageDefaults = {
-    maxWidth: 1024,
-    pathPrefix,
-    withWebp: false,
-  }
   const imgs = []
   $('img').each((index, img)=>{
+    const imageDefaults = {
+      maxWidth: 1024,
+      pathPrefix,
+      withWebp: false,
+    }
     const $img = $(img)
+    const imgWidth = parseInt($img.attr('width')) || imageDefaults.maxWidth
+    if (imgWidth) {
+      imageDefaults.maxWidth = imgWidth
+    }
     const src = $img.attr('src')
     if (src){
       if (isRelativeUrl(src)){
