@@ -211,7 +211,63 @@ const replaceImages = async ({$, jsonNode, cache, pathPrefix, reporter, fileNode
     }
   })
   await Promise.all(_.map(imgs, replaceImage))
+  await replaceVideos({$, jsonNode, cache, pathPrefix, reporter, fileNodes})
 }
+
+const replaceVideo = async({$video, videoNode, options, reporter, cache, isLocal, pathPrefix})=>{
+  const mediaType = videoNode.internal.mediaType
+  const fileName = `${videoNode.name}-${videoNode.internal.contentDigest}${
+    videoNode.ext
+  }`
+
+  const publicPath = path.join(
+    process.cwd(),
+    `public`,
+    `static`,
+    fileName
+  )
+
+  if (!fs.existsSync(publicPath)) {
+    fs.copy(videoNode.absolutePath, publicPath, err => {
+      if (err) {
+        console.error(
+          `error copying file from ${
+            videoNode.absolutePath
+          } to ${publicPath}`,
+          err
+        )
+      }
+    })
+  }
+  
+  const originalVideo = pathPrefix + `/static/${fileName}`
+  $video.attr('src', originalVideo)
+  return
+}
+
+
+const replaceVideos = async ({$, jsonNode, cache, pathPrefix, reporter, fileNodes})=> {
+  const videos = []
+  $('video').each((index,video)=>{
+    const $video = $(video)
+    const src = $video.attr('src')
+    if (src && isRelativeUrl(src)){
+      const videoPath = slash(path.join(jsonNode.dir, src))
+      const videoNode = _.find(fileNodes, (fileNode)=>{
+        if (fileNode && fileNode.absolutePath){
+          return fileNode.absolutePath === videoPath
+        }
+      })
+      if (videoNode){
+        videos.push({$video, videoNode, options:{}, reporter, cache, pathPrefix, isLocal: true})
+      }
+    }
+  })
+  await Promise.all(_.map(videos, replaceVideo))
+}
+
+exports.replaceVideos = replaceVideos
+
 exports.replaceImages = replaceImages
 
 exports.transformImages = transformImages
