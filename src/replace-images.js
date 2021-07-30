@@ -18,6 +18,10 @@ const getParsedPath = function (url) {
 const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, pathPrefix})=>{
   const isBlockImg = $img.parent().parent().hasClass('story_block_image')
   const mediaType = imageNode.internal.mediaType
+  if (mediaType === 'image/webp') {
+    // https://github.com/gatsbyjs/gatsby/issues/12552
+    return
+  }
   if (mediaType === 'image/svg+xml') {
     // 如果是 svg 图片, 仅复制图片
     const fileName = `${imageNode.name}-${imageNode.internal.contentDigest}${
