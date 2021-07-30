@@ -18,10 +18,6 @@ const getParsedPath = function (url) {
 const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, pathPrefix})=>{
   const isBlockImg = $img.parent().parent().hasClass('story_block_image')
   const mediaType = imageNode.internal.mediaType
-  if (mediaType === 'image/webp') {
-    // https://github.com/gatsbyjs/gatsby/issues/12552
-    return
-  }
   if (mediaType === 'image/svg+xml') {
     // 如果是 svg 图片, 仅复制图片
     const fileName = `${imageNode.name}-${imageNode.internal.contentDigest}${
@@ -75,13 +71,16 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
   const ratio = `${(1 / fluidResult.aspectRatio) * 100}%`
   let svgUri = ''
   try {
-    svgUri = await traceSVG({
-      file: imageNode,
-      args: options,
-      fileArgs: {},
-      reporter,
-      cache,
-    })
+    if (mediaType !== 'image/webp') {
+      // https://github.com/gatsbyjs/gatsby/issues/12552
+      svgUri = await traceSVG({
+        file: imageNode,
+        args: options,
+        fileArgs: {},
+        reporter,
+        cache,
+      })
+    }
   } catch (e) {
     reporter.error('trace svg file fail:', imageNode.absolutePath)
   }
