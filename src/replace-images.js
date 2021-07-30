@@ -34,7 +34,7 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
     if (!fs.existsSync(publicPath)) {
       fs.copy(imageNode.absolutePath, publicPath, err => {
         if (err) {
-          console.error(
+          reporter.error(
             `error copying file from ${
               imageNode.absolutePath
             } to ${publicPath}`,
@@ -50,24 +50,37 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
     $img.attr('src', originalImg)
     return
   }
-  let fluidResult = await fluid({
-    file: imageNode,
-    args: options,
-    reporter,
-    cache,
-  })
+  let fluidResult = null
+  try {
+    fluidResult = await fluid({
+      file: imageNode,
+      args: options,
+      reporter,
+      cache,
+    })
+  } catch (e) {
+    reporter.error('fluid image fail:', imageNode.absolutePath)
+  }
+  if (!fluidResult) {
+    return
+  }
   const fallbackSrc = fluidResult.src
   const srcSet = fluidResult.srcSet
   const presentationWidth = fluidResult.presentationWidth
   const presentationHeight = fluidResult.presentationHeight
   const ratio = `${(1 / fluidResult.aspectRatio) * 100}%`
-  const svgUri = await traceSVG({
-    file: imageNode,
-    args: options,
-    fileArgs: {},
-    reporter,
-    cache,
-  })
+  let svgUri = ''
+  try {
+    svgUri = await traceSVG({
+      file: imageNode,
+      args: options,
+      fileArgs: {},
+      reporter,
+      cache,
+    })
+  } catch (e) {
+    reporter.error('trace svg file fail:', imageNode.absolutePath)
+  }
   if (mediaType === 'image/gif' && isBlockImg) {
     const fileName = `${imageNode.name}-${imageNode.internal.contentDigest}${
       imageNode.ext
@@ -83,7 +96,7 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
     if (!fs.existsSync(publicPath)) {
       fs.copy(imageNode.absolutePath, publicPath, err => {
         if (err) {
-          console.error(
+          reporter.error(
             `error copying file from ${
               imageNode.absolutePath
             } to ${publicPath}`,
@@ -230,7 +243,7 @@ const replaceVideo = async({$video, videoNode, options, reporter, cache, isLocal
   if (!fs.existsSync(publicPath)) {
     fs.copy(videoNode.absolutePath, publicPath, err => {
       if (err) {
-        console.error(
+        reporter.error(
           `error copying file from ${
             videoNode.absolutePath
           } to ${publicPath}`,
