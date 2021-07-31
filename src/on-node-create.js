@@ -180,7 +180,12 @@ module.exports = async function onCreateNode(
   const previewHtml = $('.html_preview.preview').parent().html()
 
   try {
-    let data = grayMatter(content, pluginOptions)
+    let data = { content: content, data: {}}
+    try {
+        data = grayMatter(content, pluginOptions)
+    } catch (e) {
+      reporter.error('file front matter error:', meta.title, e)
+    }
     const frontmatter = data.data
     // Convert date objects to string. Otherwise there's type mismatches
     // during inference as some dates are strings and others date objects.
