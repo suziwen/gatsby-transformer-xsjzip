@@ -43,7 +43,6 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
         }
       })
     }
-    
     const originalImg = pathPrefix + `/static/${fileName}`
     $img.attr('class', 'front_image')
     $img.attr('loading', 'lazy')
@@ -59,7 +58,7 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
       cache,
     })
   } catch (e) {
-    reporter.error('fluid image fail:', imageNode.absolutePath)
+    reporter.error(`fluid image fail:${imageNode.absolutePath}`)
   }
   if (!fluidResult) {
     return
@@ -82,7 +81,7 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
       })
     }
   } catch (e) {
-    reporter.error('trace svg file fail:', imageNode.absolutePath)
+    reporter.error(`trace svg file fail:${imageNode.absolutePath}`)
   }
   if (mediaType === 'image/gif' && isBlockImg) {
     const fileName = `${imageNode.name}-${imageNode.internal.contentDigest}${

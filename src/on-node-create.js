@@ -184,7 +184,7 @@ module.exports = async function onCreateNode(
     try {
         data = grayMatter(content, pluginOptions)
     } catch (e) {
-      reporter.error('file front matter error:', meta.title, e)
+      reporter.error(`file front matter error:${meta.title},,,,${e}`, e)
     }
     const frontmatter = data.data
     // Convert date objects to string. Otherwise there's type mismatches
