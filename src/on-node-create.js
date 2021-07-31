@@ -180,9 +180,9 @@ module.exports = async function onCreateNode(
   const previewHtml = $('.html_preview.preview').parent().html()
 
   try {
-    let data = { content: content, data: {}}
+    let data = { content: content, data: {tags: [], title: ''}}
     try {
-        data = grayMatter(content, pluginOptions)
+        data = Object.assign({}, data, grayMatter(content, pluginOptions))
     } catch (e) {
       reporter.error(`file front matter error:${meta.title},,,,${e}`, e)
     }
