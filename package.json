@@ -1,7 +1,7 @@
 {
   "name": "gatsby-transformer-xsjzip",
   "description": "Gatsby transformer plugin for Markdown using the xsjzip library and ecosystem",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "author": "suziwen <suziwen1@gmail.com>",
   "bugs": {
     "url": "https://github.com/suziwen/gatsby-transformer-xsjzip/issues"
