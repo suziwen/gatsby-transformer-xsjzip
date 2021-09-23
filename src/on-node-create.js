@@ -163,8 +163,23 @@ module.exports = async function onCreateNode(
 
   $('.story_title').remove()
   $('.story_tags').remove()
-  $('#MathJax_SVG_glyphs').parent().css('display', 'none')
-  $('#MathJax_SVG_glyphs').parent().parent().css('display', 'none')
+  //$('#MathJax_SVG_glyphs').parent().css('display', 'none')
+  $('#MathJax_SVG_glyphs').parent().parent().css({
+    overflow: 'hidden',
+    position: 'absolute',
+    top: 0,
+    height: 1,
+    width: 'auto',
+    padding: 0,
+    border: 0,
+    margin: 0,
+    textAlign: 'left',
+    textIndent: 0,
+    textTransform: 'none',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    wordSpacing: 'normal
+  })
 
   $('a').each((index, aEl)=>{
     const $a = $(aEl)
