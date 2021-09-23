@@ -178,7 +178,7 @@ module.exports = async function onCreateNode(
     textTransform: 'none',
     lineHeight: 'normal',
     letterSpacing: 'normal',
-    wordSpacing: 'normal
+    wordSpacing: 'normal'
   })
 
   $('a').each((index, aEl)=>{
