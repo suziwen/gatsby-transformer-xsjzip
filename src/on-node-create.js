@@ -168,17 +168,11 @@ module.exports = async function onCreateNode(
     overflow: 'hidden',
     position: 'absolute',
     top: 0,
-    height: 1,
+    height: '1px',
     width: 'auto',
     padding: 0,
     border: 0,
-    margin: 0,
-    textAlign: 'left',
-    textIndent: 0,
-    textTransform: 'none',
-    lineHeight: 'normal',
-    letterSpacing: 'normal',
-    wordSpacing: 'normal'
+    margin: 0
   })
 
   $('a').each((index, aEl)=>{
