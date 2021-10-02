@@ -44,7 +44,7 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
       })
     }
     const originalImg = pathPrefix + `/static/${fileName}`
-    $img.attr('class', 'front_image')
+    $img.addClass('front_image')
     $img.attr('loading', 'lazy')
     $img.attr('src', originalImg)
     return
@@ -109,7 +109,7 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
     }
     
     const originalImg = pathPrefix + `/static/${fileName}`
-    $img.attr('class', 'front_image')
+    $img.addClass('front_image')
     $img.attr('loading', 'lazy')
     $img.attr('src', fallbackSrc)
     $img.attr('data-src', originalImg)
@@ -129,7 +129,7 @@ const replaceImage = async({$img, imageNode, options, reporter, cache, isLocal, 
     $img.wrap(gifPlayerStr)
     $img.before(`<div class="play_button"></div>`)
   } else {
-    $img.attr('class', 'front_image')
+    $img.addClass('front_image')
     $img.attr('loading', 'lazy')
     if (isLocal) {
       $img.attr('src', fallbackSrc)
