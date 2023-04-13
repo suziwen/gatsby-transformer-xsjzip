@@ -56,6 +56,7 @@ A sample GraphQL query to get MarkdownRemark nodes:
         rawMarkdownBody
         toc
         slug
+        docId
         zipPath
         docType
         customCss

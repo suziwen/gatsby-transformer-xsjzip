@@ -9,6 +9,7 @@ module.exports = function createSchemaCustomization ({ actions }){
       customCss: String!
       toc: String!
       slug: String!
+      docId: String!
       docType: String
       tags: [String!]!
       excerpt: String!
