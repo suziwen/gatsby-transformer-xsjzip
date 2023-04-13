@@ -251,7 +251,7 @@ module.exports = async function onCreateNode(
     markdownNode.createDate = stringfyDate(frontmatter.createDate || meta.createDate || Date.now())
     markdownNode.updateDate = stringfyDate(frontmatter.updateDate || meta.updateDate || Date.now())
     markdownNode.cover = frontmatter.cover || meta.cover || null
-    markdownNode.docId = meta.id
+    markdownNode.docId = meta.id || xxId
     if (!!markdownNode.cover) {
       const cover = markdownNode.cover
       const imgReg = /!\[.*\]\((.*)\)/
