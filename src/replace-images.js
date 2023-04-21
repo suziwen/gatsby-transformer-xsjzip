@@ -194,7 +194,7 @@ const replaceImages = async ({$, jsonNode, cache, pathPrefix, reporter, fileNode
   const imgs = []
   $('img').each((index, img)=>{
     const imageDefaults = {
-      maxWidth: 1024,
+      maxWidth: 4096,
       pathPrefix,
       withWebp: false,
     }
