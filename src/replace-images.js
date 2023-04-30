@@ -299,7 +299,7 @@ const replaceVideo = async({$video, videoNode, options, reporter, cache, isLocal
 
 
 const replaceAttachments = async ({$, jsonNode, cache, pathPrefix, reporter, fileNodes})=> {
-  const attachments = []
+  const aAttachments = []
   $('a.attachment').each((index,aAttachment)=>{
     const $aAttachment = $(aAttachment)
     const href = $aAttachment.attr('href')
@@ -311,7 +311,7 @@ const replaceAttachments = async ({$, jsonNode, cache, pathPrefix, reporter, fil
         }
       })
       if (aAttachmentNode){
-        attachments.push({$attachment: $aAttachment, attachmentNode: aAttachmentNode, options:{}, reporter, cache, pathPrefix, isLocal: true})
+        aAttachments.push({$attachment: $aAttachment, attachmentNode: aAttachmentNode, options:{}, reporter, cache, pathPrefix, isLocal: true})
       }
     }
   })
