@@ -227,7 +227,44 @@ const replaceImages = async ({$, jsonNode, cache, pathPrefix, reporter, fileNode
   })
   await Promise.all(_.map(imgs, replaceImage))
   await replaceVideos({$, jsonNode, cache, pathPrefix, reporter, fileNodes})
+  await replaceAttachments({$, jsonNode, cache, pathPrefix, reporter, fileNodes})
 }
+
+const replaceAttachment = async({$attachment, attachmentNode, options, reporter, cache, isLocal, pathPrefix})=>{
+  const mediaType = attachmentNode.internal.mediaType
+  const fileName = `${attachmentNode.name}-${attachmentNode.internal.contentDigest}${
+    attachmentNode.ext
+  }`
+
+  const publicPath = path.join(
+    process.cwd(),
+    `public`,
+    `static`,
+    fileName
+  )
+
+  if (!fs.existsSync(publicPath)) {
+    fs.copy(attachmentNode.absolutePath, publicPath, err => {
+      if (err) {
+        reporter.error(
+          `error copying file from ${
+            attachmentNode.absolutePath
+          } to ${publicPath}`,
+          err
+        )
+      }
+    })
+  }
+  
+  const originalAttachment = pathPrefix + `/static/${fileName}`
+  $attachment.attr('href', originalAttachment)
+  const downloadFilename = $attachment.attr('download')
+  if (!downloadFilename) {
+    $attachment.attr('download', fileName)
+  }
+  return
+}
+
 
 const replaceVideo = async({$video, videoNode, options, reporter, cache, isLocal, pathPrefix})=>{
   const mediaType = videoNode.internal.mediaType
@@ -261,6 +298,26 @@ const replaceVideo = async({$video, videoNode, options, reporter, cache, isLocal
 }
 
 
+const replaceAttachments = async ({$, jsonNode, cache, pathPrefix, reporter, fileNodes})=> {
+  const attachments = []
+  $('a.attachment').each((index,aAttachment)=>{
+    const $aAttachment = $(aAttachment)
+    const href = $aAttachment.attr('href')
+    if (href && isRelativeUrl(href)){
+      const aAttachmentPath = slash(path.join(jsonNode.dir, href))
+      const aAttachmentNode = _.find(fileNodes, (fileNode)=>{
+        if (fileNode && fileNode.absolutePath){
+          return fileNode.absolutePath === aAttachmentPath
+        }
+      })
+      if (aAttachmentNode){
+        attachments.push({$attachment: $aAttachment, attachmentNode: aAttachmentNode, options:{}, reporter, cache, pathPrefix, isLocal: true})
+      }
+    }
+  })
+  await Promise.all(_.map(aAttachments, replaceAttachment))
+}
+
 const replaceVideos = async ({$, jsonNode, cache, pathPrefix, reporter, fileNodes})=> {
   const videos = []
   $('video').each((index,video)=>{
@@ -282,6 +339,8 @@ const replaceVideos = async ({$, jsonNode, cache, pathPrefix, reporter, fileNode
 }
 
 exports.replaceVideos = replaceVideos
+
+exports.replaceAttachments = replaceAttachments
 
 exports.replaceImages = replaceImages
 
